@@ -8,12 +8,27 @@ function ContextProvider({children}) {
 
   useEffect(()=>{
     fetch(url)
-      .then(rep => rep.json())
-      .then(data => setAllPhotos(data))
+    .then(rep => rep.json())
+    .then(data => setAllPhotos(data))
   }, [])
 
+  function toggleFavorite(id) {
+    const updatedArr = allPhotos.map(photo => {
+      if(photo.id === id) {
+        return {
+          ...photo,
+          isFavorite: !photo.isFavorite
+        }
+      }
+      return photo
+    })
+    setAllPhotos(updatedArr)
+  }
+
+  console.log(allPhotos)
+
   return (
-    <Context.Provider value={{allPhotos}}>
+    <Context.Provider value={{allPhotos, toggleFavorite}}>
       {children}
     </Context.Provider>
   )
